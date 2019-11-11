@@ -1,5 +1,5 @@
 # parameters
-ARG REPO_NAME="<REPO_NAME_HERE>"
+ARG REPO_NAME="foscam-r2-interface"
 
 # ==================================================>
 # ==> Do not change this code
@@ -60,5 +60,8 @@ LABEL org.duckietown.label.base.image "${BASE_IMAGE}:${BASE_TAG}"
 # <== Do not change this code
 # <==================================================
 
+# install python library for Foscam cameras
+RUN pip2 install "git+https://github.com/ripl-ttic/python-foscam@python2"
+
 # maintainer
-LABEL maintainer="<YOUR_FULL_NAME> (<YOUR_EMAIL_ADDRESS>)"
+LABEL maintainer="Andrea F. Daniele (afdaniele@ttic.edu)"

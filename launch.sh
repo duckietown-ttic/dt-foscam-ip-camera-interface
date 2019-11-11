@@ -4,4 +4,4 @@ set -e
 
 # YOUR CODE BELOW THIS LINE
 # ----------------------------------------------------------------------------
-echo "This is an empty launch script. Update it to launch your application."
+roslaunch foscam_ros foscam_ros.launch camera_name:=foscam_r2 param_file_name:=ttic
