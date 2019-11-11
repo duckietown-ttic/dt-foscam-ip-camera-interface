@@ -1,16 +1,16 @@
 <launch>
   <arg name="camera_name"/>
   <arg name="pkg_name" value="foscam_ros"/>
-  <arg name="param_file_name" default="default"/>
+  <arg name="manager" value="camera_manager"/>
 
   <arg name="decoder" default="true"/>
   <arg name="crop" default="true"/>
   <arg name="rectify" default="true"/>
+  <arg name="param_file_name" default="default"/>
 
-  <arg name="manager" default="camera_manager"/>
-
-  <arg name="crop_param_file" default="$(find foscam_ros)/config/crop_node/$(arg param_file_name).yaml"/>
-  <arg name="camera_param_file" default="$(find foscam_ros)/config/foscam_ros_node/$(arg param_file_name).yaml"/>
+  <arg name="config_dir" default="$(find foscam_ros)/config"/>
+  <arg name="crop_param_file" default="$(arg config_dir)/crop_node/$(arg param_file_name).yaml"/>
+  <arg name="camera_param_file" default="$(arg config_dir)/foscam_ros_node/$(arg param_file_name).yaml"/>
 
 
   <group ns="$(arg camera_name)">
