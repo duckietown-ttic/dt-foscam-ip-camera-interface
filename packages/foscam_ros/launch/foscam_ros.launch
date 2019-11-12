@@ -5,7 +5,7 @@
 
   <arg name="decoder" default="true"/>
   <arg name="crop" default="true"/>
-  <arg name="rectify" default="true"/>
+  <arg name="rectify" default="$(optenv RECTIFY true)"/>
   <arg name="param_file_name" default="default"/>
 
   <arg name="config_dir" default="$(find foscam_ros)/config"/>
