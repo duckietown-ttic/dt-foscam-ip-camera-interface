@@ -1,43 +1,70 @@
-# Template: template-ros
+# Foscam R2 IP Camera Interface
 
-This template provides a boilerplate repository
-for developing ROS-based software in Duckietown.
-
-**NOTE:** If you want to develop software that does not use
-ROS, check out [this template](https://github.com/duckietown/template-basic).
-
+This Docker image provides a ROS interface to the Foscam R2 IP surveillance camera.
 
 ## How to use it
 
-### 1. Fork this repository
+Run it using the command:
+```
+docker run \
+  -itd \
+  --net=host \
+  duckietown/dt-ttic-foscam-r2-interface:daffy
+```
 
-Use the fork button in the top-right corner of the github page to fork this template repository.
+## Configuration files
 
-
-### 2. Create a new repository
-
-Create a new repository on github.com while
-specifying the newly forked template repository as
-a template for your new repository.
-
-
-### 3. Define dependencies
-
-List the dependencies in the files `dependencies-apt.txt` and
-`dependencies-py.txt` (apt packages and pip packages respectively).
+If you have custom login information for your camera, the default image will not work out of the box, you will need to provide extra information.
 
 
-### 4. Place your code
+### Configure login information
 
-Place your ROS packages in the directory `/packages` of
-your new repository.
+Create a directory `config` and create the following file `config/mycam.yaml`.
+The content of this file has the following shape:
+```
+ip: 'STRING'
+port: INT
+username: 'STRING'
+password: 'STRING'
+framerate: INT
+```
 
-**NOTE:** Do not use absolute paths in your code,
-the code you place under `/packages` will be copied to
-a different location later.
+Mount the `/config` dir to your container and provide the new location for the config file.
+```
+docker run \
+  -itd \
+  --net=host \
+  -v ./config:/config \
+  -e CAMERA_PARAM_FILE=/config/mycam.yaml
+  duckietown/dt-ttic-foscam-r2-interface:daffy
+```
 
 
-### 5. Setup the launchfile
+### Configure crop
 
-Change the file `launch.sh` in your repository to
-launch your code.
+The image provides a simple way to crop a given ROI from the camera image.
+Cropping is enabled by default with the ROI set to be the entire image, so it has no effect.
+If you want to configure the ROI, create a directory `config` and create the following file `config/myROI.yaml`.
+The content of this file has the following shape:
+```
+x_offset: INT
+y_offset: INT
+width: INT
+height: INT
+```
+For more information, check out [this page](http://wiki.ros.org/image_proc);
+
+Mount the `/config` dir to your container and provide the new location for the config file.
+```
+docker run \
+  -itd \
+  --net=host \
+  -v ./config:/config \
+  -e CROP_PARAM_FILE=/config/myROI.yaml
+  duckietown/dt-ttic-foscam-r2-interface:daffy
+```
+
+
+### Configure image rectification
+
+By default, the image performs image rectification using the camera matrix in the `camera_info` topic. Set the environment variable `RECTIFY` to `0` to disable it.
